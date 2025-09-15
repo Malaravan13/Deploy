@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.git
+.gitignore
+README.md
+.env
+.venv
+env/
+venv/
+*.ipynb
+cleaned.csv
+newborn_health_monitoring_with_risk.csv
+ridge_jaundice_pipeline.joblib
