@@ -5,7 +5,6 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Load the trained model and feature names
 try:
     model = joblib.load('gbr_jaundice_model.joblib')
     feature_names = joblib.load('gbr_feature_names.joblib')
@@ -38,29 +37,23 @@ def predict():
         return jsonify({'success': False, 'error': 'Model not loaded'})
     
     try:
-        # Get input data
         data = request.get_json()
         
-        # Create a DataFrame with the input data
         input_df = pd.DataFrame([data])
         
-        # Add year, month, day columns (default values)
         input_df['year'] = 2024
         input_df['month'] = 12
         input_df['day'] = 15
         
-        # One-hot encode categorical variables to match training data
         input_df = pd.get_dummies(input_df, drop_first=True)
         
-        # Ensure all required features are present
         missing_features = set(feature_names) - set(input_df.columns)
         for feature in missing_features:
             input_df[feature] = 0
         
-        # Reorder columns to match training data
         input_df = input_df[feature_names]
         
-        # Make prediction
+        
         prediction = model.predict(input_df)[0]
         
         return jsonify({
